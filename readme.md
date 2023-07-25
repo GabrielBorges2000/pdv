@@ -87,7 +87,8 @@ http://localhost:3333/stock<br><br><br>
 No Frontend haverá uma página para cadastrar novos produtos no sistema, outra para dar entrada na quantidade de produtos, uma para dar saída na quantidade de produtos e outra para ver o relatório desses protudos.
 
 Atualmente a página de adicionar novas vendas e relatório de vendas ainda não foram desenvolvidas, mas em breve desejo acrescentar.
--
+
+---
 No Backend você pode testar as rotas com as URLs bases
 
 ### Rota dos produtos:
