@@ -1,0 +1,1 @@
+export const api = 'https://owa.arcossp.com.br/arcos_novo/ws.coviduana'
