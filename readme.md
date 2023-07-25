@@ -1,4 +1,4 @@
-# Sistema PDV do teste que foi passado
+# Teste Sistema PDV
 
 Sistema criado com base no desafio passado e as regras informadas, ainda em desenvolvimento devido a pouca disponibilizade de horário que tenho, mas que já pode ajudar bastante para ser finalizado as demais funcionálidades, que a aplicação foi desenvolvida promeiramente utilizando o asyncStorageLocal para teste e depois sendo convertido para a API. Espero que goste da aplicação. 
 
