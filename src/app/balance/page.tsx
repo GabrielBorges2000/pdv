@@ -1,8 +1,8 @@
 'use client'
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 import * as Ch from '@chakra-ui/react'
-import { Header } from "@/components/Header";
-import { Sidebar } from "@/components/Sidebar";
+import { Header } from '@/components/Header'
+import { Sidebar } from '@/components/Sidebar'
 
 type ListProducts = {
   id?: string
@@ -13,64 +13,64 @@ type ListProducts = {
 }
 
 export function getlocalStorage(key: string) {
-  const data = window.localStorage.getItem(key)
+  const data: string | null = window.localStorage.getItem(key)
 
   return JSON.parse(data!)
 }
 
 const Balance = () => {
-  const [productFiltered, setProductFiltered] = useState<string>("");
-  const [listProducts, setListProducts] = useState<ListProducts[]>([]);
-  const [cmbProducts, setCmbProducts] = useState<ListProducts[]>([]);
+  const [productFiltered, setProductFiltered] = useState<string>('')
+  const [listProducts, setListProducts] = useState<ListProducts[]>([])
+  const [cmbProducts, setCmbProducts] = useState<ListProducts[]>([])
 
   const BuildBalanceArray = () => {
-    const db_stock_outputs = getlocalStorage("db_stock_outputs");
+    const db_stock_outputs = getlocalStorage('db_stock_outputs')
 
-    const db_stock_entries = getlocalStorage("db_stock_entries");
+    const db_stock_entries = getlocalStorage('db_stock_entries')
 
-    const db_products = getlocalStorage("db_products");
+    const db_products = getlocalStorage('db_products')
 
-    const newArray: ListProducts[] = [];
+    const newArray: ListProducts[] = []
 
-    db_products?.map((prod: { id: string, name: string }) => {
+    db_products?.map((prod: { id: string; name: string }) => {
       const entries = db_stock_entries
         .filter(({ product_id }: ListProducts) => product_id === prod.id)
         .map(({ amount }: ListProducts) => Number(amount))
-        .reduce((acc: number, cur: number) => acc + cur, 0);
+        .reduce((acc: number, cur: number) => acc + cur, 0)
 
       const outputs = db_stock_outputs
         .filter(({ product_id }: ListProducts) => product_id === prod.id)
         .map(({ amount }: ListProducts) => Number(amount))
-        .reduce((acc: number, cur: number) => acc + cur, 0);
+        .reduce((acc: number, cur: number) => acc + cur, 0)
 
-      const total = Number(entries) - Number(outputs);
+      const total = Number(entries) - Number(outputs)
 
       newArray.push({
         product_id: prod.id,
         product_name: prod.name,
         amount: total,
-      });
+      })
 
-      setListProducts(newArray);
-      setCmbProducts(newArray);
-    });
-  };
+      setListProducts(newArray)
+      setCmbProducts(newArray)
+    })
+  }
 
   useEffect(() => {
-    BuildBalanceArray();
-  }, []);
+    BuildBalanceArray()
+  }, [])
 
   const handleFilterProducts = () => {
     if (!productFiltered) {
-      setListProducts(cmbProducts);
-      return;
+      setListProducts(cmbProducts)
+      return
     }
 
     const newArray = cmbProducts.filter(
-      (item: ListProducts) => item.product_id === productFiltered
+      (item: ListProducts) => item.product_id === productFiltered,
     )
 
-    setListProducts(newArray);
+    setListProducts(newArray)
   }
 
   return (

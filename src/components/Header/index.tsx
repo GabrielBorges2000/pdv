@@ -9,7 +9,7 @@ export function Header() {
   const isMobile = Ch.useBreakpointValue({
     base: true,
     lg: false,
-  });
+  })
 
   const { onOpen }: Ch.UseDisclosureProps = useSidebarContext()
 
@@ -34,17 +34,17 @@ export function Header() {
           variant="unstyled"
           fontSize="20"
           mr="2"
-          aria-label='Este botão é para abrir a sidebar'
+          aria-label="Este botão é para abrir a sidebar"
         ></Ch.IconButton>
       )}
 
-      <Ch.Text as='h1'>Estoque</Ch.Text>
-      <Ch.Flex ml='auto'>
+      <Ch.Text as="h1">Estoque</Ch.Text>
+      <Ch.Flex ml="auto">
         <Ch.HStack>
           <Ch.Text>Fazer Login</Ch.Text>
-          <Ch.Avatar size='md' name='' />
+          <Ch.Avatar size="md" name="" />
         </Ch.HStack>
       </Ch.Flex>
-    </Ch.Flex >
+    </Ch.Flex>
   )
 }

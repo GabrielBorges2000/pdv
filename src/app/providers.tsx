@@ -7,17 +7,11 @@ import { ReactNode } from 'react'
 import { themeType } from '@/global/theme'
 import { SidebarProvider } from '@/contexts/SidebarContext'
 
-export function Providers({
-  children
-}: {
-  children: ReactNode
-}) {
+export function Providers({ children }: { children: ReactNode }) {
   return (
-    <CacheProvider >
+    <CacheProvider>
       <ChakraProvider theme={themeType}>
-        <SidebarProvider>
-          {children}
-        </SidebarProvider>
+        <SidebarProvider>{children}</SidebarProvider>
       </ChakraProvider>
     </CacheProvider>
   )

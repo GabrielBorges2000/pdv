@@ -6,9 +6,9 @@ import { Header } from '@/components/Header'
 import { Sidebar } from '@/components/Sidebar'
 
 interface ProductProps {
-  id: string,
-  product_id: string,
-  amount: string,
+  id: string
+  product_id: string
+  amount: string
   name?: string
 }
 
@@ -25,57 +25,60 @@ export function setlocalStorage(key: string, value: unknown) {
 }
 
 const StockEntries = () => {
-  const [amount, setAmount] = useState<string>("");
-  const [product_id, setProduct_id] = useState<string>("0");
-  const [listStockEntries, setStockEntries] = useState<ProductProps[]>([]);
-  const [listProducts, setListProducts] = useState<ProductProps[]>([]);
+  const [amount, setAmount] = useState<string>('')
+  const [product_id, setProduct_id] = useState<string>('0')
+  const [listStockEntries, setStockEntries] = useState<ProductProps[]>([])
+  const [listProducts, setListProducts] = useState<ProductProps[]>([])
 
   useEffect(() => {
-    const db_stock_entries = getlocalStorage("db_stock_entries");
+    const db_stock_entries = getlocalStorage('db_stock_entries')
 
-    setStockEntries(db_stock_entries);
+    setStockEntries(db_stock_entries)
 
-    const db_products = getlocalStorage("db_products");
+    const db_products = getlocalStorage('db_products')
 
-    setListProducts(db_products);
-  }, []);
+    setListProducts(db_products)
+  }, [])
 
   const handleNewEntry = () => {
-    if (!amount || product_id === "0") {
-      return alert("Selecione o produto e a quantidade!");
+    if (!amount || product_id === '0') {
+      return alert('Selecione o produto e a quantidade!')
     }
 
-    const id = Math.random().toString(36).substring(2);
+    const id = Math.random().toString(36).substring(2)
 
     if (listStockEntries && listStockEntries.length) {
-      setlocalStorage("db_stock_entries", [...listStockEntries, { id, amount, product_id }]);
+      setlocalStorage('db_stock_entries', [
+        ...listStockEntries,
+        { id, amount, product_id },
+      ])
 
       const NewStockProduct: ProductProps = { id, amount, product_id }
 
-      setStockEntries([...listStockEntries, NewStockProduct]);
+      setStockEntries([...listStockEntries, NewStockProduct])
     } else {
-      setlocalStorage("db_stock_entries", [{ id, amount, product_id }]);
+      setlocalStorage('db_stock_entries', [{ id, amount, product_id }])
 
       const NewStockProduct: ProductProps = { id, amount, product_id }
 
-      setStockEntries([NewStockProduct]);
+      setStockEntries([NewStockProduct])
     }
 
-    setAmount("");
-    setProduct_id("0");
-  };
+    setAmount('')
+    setProduct_id('0')
+  }
 
   const removeEntries = (id: string) => {
-    const newArray = listStockEntries.filter((item) => item.id !== id);
+    const newArray = listStockEntries.filter((item) => item.id !== id)
 
-    setlocalStorage("db_stock_entries", newArray);
+    setlocalStorage('db_stock_entries', newArray)
 
-    setStockEntries(newArray);
-  };
+    setStockEntries(newArray)
+  }
 
   const getProductById = (id: string) => {
-    return listProducts.filter((item) => item.id === id)[0]?.name;
-  };
+    return listProducts.filter((item) => item.id === id)[0]?.name
+  }
 
   return (
     <Ch.Flex h="100vh" flexDirection="column">
@@ -124,24 +127,28 @@ const StockEntries = () => {
                 </Ch.Tr>
               </Ch.Thead>
               <Ch.Tbody>
-                {listStockEntries.map(({ product_id, amount, id }: ProductProps, i) => (
-                  <Ch.Tr key={i}>
-                    <Ch.Td color="gray.500">{getProductById(product_id)}</Ch.Td>
-                    <Ch.Td color="gray.500">{amount}</Ch.Td>
-                    <Ch.Td textAlign="end">
-                      <Ch.Button
-                        p="2"
-                        h="auto"
-                        fontSize={11}
-                        color="red.500"
-                        fontWeight="bold"
-                        onClick={() => removeEntries(id)}
-                      >
-                        DELETAR
-                      </Ch.Button>
-                    </Ch.Td>
-                  </Ch.Tr>
-                ))}
+                {listStockEntries.map(
+                  ({ product_id, amount, id }: ProductProps, i) => (
+                    <Ch.Tr key={i}>
+                      <Ch.Td color="gray.500">
+                        {getProductById(product_id)}
+                      </Ch.Td>
+                      <Ch.Td color="gray.500">{amount}</Ch.Td>
+                      <Ch.Td textAlign="end">
+                        <Ch.Button
+                          p="2"
+                          h="auto"
+                          fontSize={11}
+                          color="red.500"
+                          fontWeight="bold"
+                          onClick={() => removeEntries(id)}
+                        >
+                          DELETAR
+                        </Ch.Button>
+                      </Ch.Td>
+                    </Ch.Tr>
+                  ),
+                )}
               </Ch.Tbody>
             </Ch.Table>
           </Ch.Box>
@@ -149,7 +156,6 @@ const StockEntries = () => {
       </Ch.Flex>
     </Ch.Flex>
   )
-
 }
 
 export default StockEntries

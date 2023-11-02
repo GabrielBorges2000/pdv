@@ -4,12 +4,12 @@ import { SidebarNav } from '../SidebarNav'
 import { useSidebarContext } from '@/contexts/SidebarContext'
 
 interface ContextProps extends Ch.UseDisclosureProps {
-  isOpen: boolean;
-  onClose: () => void;
+  isOpen: boolean
+  onClose: () => void
 }
 
 export function Sidebar() {
-  const { isOpen, onClose }: ContextProps = useSidebarContext();
+  const { isOpen, onClose }: ContextProps = useSidebarContext()
 
   const isDrawerSidebar = Ch.useBreakpointValue({
     base: true,
@@ -29,11 +29,11 @@ export function Sidebar() {
           </Ch.DrawerContent>
         </Ch.DrawerOverlay>
       </Ch.Drawer>
-    );
+    )
   }
 
   return (
-    <Ch.Box as='aside' w='64' mr='8'>
+    <Ch.Box as="aside" w="64" mr="8">
       <SidebarNav />
     </Ch.Box>
   )

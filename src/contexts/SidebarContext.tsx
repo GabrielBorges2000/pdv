@@ -1,5 +1,5 @@
-import { UseDisclosureProps, useDisclosure } from "@chakra-ui/react";
-import { ReactNode, createContext, useContext } from "react";
+import { UseDisclosureProps, useDisclosure } from '@chakra-ui/react'
+import { ReactNode, createContext, useContext } from 'react'
 
 const SidebarContext = createContext({})
 
@@ -8,7 +8,7 @@ interface ContextProps {
 }
 
 export const SidebarProvider = ({ children }: ContextProps) => {
-  const disclosure: UseDisclosureProps = useDisclosure();
+  const disclosure: UseDisclosureProps = useDisclosure()
 
   return (
     <SidebarContext.Provider value={disclosure}>
@@ -17,4 +17,4 @@ export const SidebarProvider = ({ children }: ContextProps) => {
   )
 }
 
-export const useSidebarContext = () => useContext(SidebarContext);
+export const useSidebarContext = () => useContext(SidebarContext)

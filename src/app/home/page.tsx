@@ -1,13 +1,13 @@
 'use client'
-import { Header } from '@/components/Header';
-import { Sidebar } from '@/components/Sidebar';
+import { Header } from '@/components/Header'
+import { Sidebar } from '@/components/Sidebar'
 import * as Ch from '@chakra-ui/react'
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react'
 
 interface ProductProps {
-  id: string,
-  product_id?: string,
-  amount?: string,
+  id: string
+  product_id?: string
+  amount?: string
   name: string
 }
 
@@ -24,64 +24,64 @@ export function setlocalStorage(key: string, value: unknown) {
 }
 
 const Produtos = () => {
-  const [name, setName] = useState("");
-  const [listProducts, setListProducts] = useState<ProductProps[]>([]);
+  const [name, setName] = useState('')
+  const [listProducts, setListProducts] = useState<ProductProps[]>([])
 
   useEffect(() => {
-    const db_products = getlocalStorage("db_products");
+    const db_products = getlocalStorage('db_products')
 
-    setListProducts(db_products);
-  }, []);
+    setListProducts(db_products)
+  }, [])
 
   const handleNewProduct = () => {
-    if (!name) return;
+    if (!name) return
     if (verifyProductName()) {
-      alert("Produto já cadastrado!");
-      return;
+      alert('Produto já cadastrado!')
+      return
     }
 
-    const id = Math.random().toString(36).substring(2);
+    const id = Math.random().toString(36).substring(2)
 
     if (listProducts && listProducts.length) {
-      setlocalStorage( "db_products", [...listProducts, { id, name }]);
+      setlocalStorage('db_products', [...listProducts, { id, name }])
 
-      setListProducts([...listProducts, { id, name }]);
+      setListProducts([...listProducts, { id, name }])
     } else {
-      setlocalStorage("db_products",[{ id, name }]);
+      setlocalStorage('db_products', [{ id, name }])
 
-      setListProducts([{ id, name }]);
+      setListProducts([{ id, name }])
     }
 
-    setName("");
-  };
+    setName('')
+  }
 
   const verifyProductName = () => {
-    return !!listProducts.find((prod) => prod.name === name);
-  };
+    return !!listProducts.find((prod) => prod.name === name)
+  }
 
-  const removeProduct = (id: String | Number) => {
-    const db_stock_outputs = getlocalStorage("db_stock_outputs");
+  const removeProduct = (id: string | number) => {
+    const db_stock_outputs = getlocalStorage('db_stock_outputs')
 
-    const db_stock_entries = getlocalStorage("db_stock_entries");
+    const db_stock_entries = getlocalStorage('db_stock_entries')
 
     const hasOutputs = db_stock_outputs.filter(
-      (item: ProductProps) => item.product_id === id
-    ).length;
+      (item: ProductProps) => item.product_id === id,
+    ).length
     const hasEntries = db_stock_entries.filter(
-      (item: ProductProps) => item.product_id === id
-    ).length;
+      (item: ProductProps) => item.product_id === id,
+    ).length
 
     if (hasEntries || hasOutputs) {
-      alert("Esse produto possuí movimentações!");
-      return;
+      alert('Esse produto possuí movimentações!')
+      return
     }
 
-    const newArray = listProducts.filter((item: ProductProps) => item.id !== id);
+    const newArray = listProducts.filter((item: ProductProps) => item.id !== id)
 
-    setlocalStorage("db_products", newArray);
+    setlocalStorage('db_products', newArray)
 
-    setListProducts(newArray);
-  };
+    setListProducts(newArray)
+  }
 
   return (
     <Ch.Flex h="100vh" flexDirection="column">
@@ -136,6 +136,6 @@ const Produtos = () => {
         </Ch.Box>
       </Ch.Flex>
     </Ch.Flex>
-  );
-};
+  )
+}
 export default Produtos
