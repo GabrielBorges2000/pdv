@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 'use client'
 import { useEffect, useState } from 'react'
 import * as Ch from '@chakra-ui/react'
@@ -15,7 +16,7 @@ interface ProductProps {
 export function getlocalStorage(key: string) {
   const data = window.localStorage.getItem(key)
 
-  return JSON.parse(data!)
+  return data ? JSON.parse(data!) : []
 }
 
 export function setlocalStorage(key: string, value: unknown) {

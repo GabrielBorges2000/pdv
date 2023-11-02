@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 'use client'
 import { useEffect, useState } from 'react'
 import * as Ch from '@chakra-ui/react'
@@ -7,7 +9,7 @@ import { Sidebar } from '@/components/Sidebar'
 type ListProducts = {
   id?: string
   name?: string
-  amount: string | number
+  amount: number
   product_id?: string
   product_name?: string
 }
@@ -15,7 +17,7 @@ type ListProducts = {
 export function getlocalStorage(key: string) {
   const data: string | null = window.localStorage.getItem(key)
 
-  return JSON.parse(data!)
+  return data ? JSON.parse(data!) : []
 }
 
 const Balance = () => {
@@ -32,7 +34,7 @@ const Balance = () => {
 
     const newArray: ListProducts[] = []
 
-    db_products?.map((prod: { id: string; name: string }) => {
+    db_products?.map((prod: ListProducts) => {
       const entries = db_stock_entries
         .filter(({ product_id }: ListProducts) => product_id === prod.id)
         .map(({ amount }: ListProducts) => Number(amount))

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 'use client'
 import { Header } from '@/components/Header'
 import { Sidebar } from '@/components/Sidebar'
@@ -14,7 +15,7 @@ interface ProductProps {
 export function getlocalStorage(key: string) {
   const data = window.localStorage.getItem(key)
 
-  return JSON.parse(data!)
+  return data ? JSON.parse(data!) : []
 }
 
 export function setlocalStorage(key: string, value: unknown) {
