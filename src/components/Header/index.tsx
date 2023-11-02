@@ -38,11 +38,11 @@ export function Header() {
         ></Ch.IconButton>
       )}
 
-      <Ch.Text as='h1'>Logo</Ch.Text>
+      <Ch.Text as='h1'>Estoque</Ch.Text>
       <Ch.Flex ml='auto'>
         <Ch.HStack>
-          <Ch.Text> Olá Gabriel Borges</Ch.Text>
-          <Ch.Avatar size='md' name='Gabriel Borges' />
+          <Ch.Text>Fazer Login</Ch.Text>
+          <Ch.Avatar size='md' name='' />
         </Ch.HStack>
       </Ch.Flex>
     </Ch.Flex >

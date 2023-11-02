@@ -4,8 +4,8 @@ import type { Metadata } from 'next'
 import { Providers } from './providers'
 
 export const metadata: Metadata = {
-  title: 'PDV',
-  description: 'Teste Programador PDV',
+  title: 'Gerenciador de estoque',
+  description: 'Teste ',
 }
 
 export default function RootLayout({

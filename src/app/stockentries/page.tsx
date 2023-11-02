@@ -9,7 +9,19 @@ interface ProductProps {
   id: string,
   product_id: string,
   amount: string,
-  name: string
+  name?: string
+}
+
+export function getlocalStorage(key: string) {
+  const data = window.localStorage.getItem(key)
+
+  return JSON.parse(data!)
+}
+
+export function setlocalStorage(key: string, value: unknown) {
+  const data = JSON.stringify(value)
+
+  return window.localStorage.setItem(key, data)
 }
 
 const StockEntries = () => {
@@ -19,38 +31,34 @@ const StockEntries = () => {
   const [listProducts, setListProducts] = useState<ProductProps[]>([]);
 
   useEffect(() => {
-    const db_stock_entries = localStorage.getItem("db_stock_entries")
-      ? JSON.parse(localStorage.getItem("db_stock_entries")) : [];
+    const db_stock_entries = getlocalStorage("db_stock_entries");
 
     setStockEntries(db_stock_entries);
 
-    const db_products = localStorage.getItem("db_products")
-      ? JSON.parse(localStorage.getItem("db_products")) : [];
+    const db_products = getlocalStorage("db_products");
 
     setListProducts(db_products);
   }, []);
 
   const handleNewEntry = () => {
-    if (!amount | (product_id === "0")) {
+    if (!amount || product_id === "0") {
       return alert("Selecione o produto e a quantidade!");
     }
 
     const id = Math.random().toString(36).substring(2);
 
     if (listStockEntries && listStockEntries.length) {
-      localStorage.setItem(
-        "db_stock_entries",
-        JSON.stringify([...listStockEntries, { id, amount, product_id }])
-      );
+      setlocalStorage("db_stock_entries", [...listStockEntries, { id, amount, product_id }]);
 
-      setStockEntries<ProductProps[]>([...listStockEntries, { id, amount, product_id }]);
+      const NewStockProduct: ProductProps = { id, amount, product_id }
+
+      setStockEntries([...listStockEntries, NewStockProduct]);
     } else {
-      localStorage.setItem(
-        "db_stock_entries",
-        JSON.stringify([{ id, amount, product_id }])
-      );
+      setlocalStorage("db_stock_entries", [{ id, amount, product_id }]);
 
-      setStockEntries<ProductProps[]>([{ id, amount, product_id }]);
+      const NewStockProduct: ProductProps = { id, amount, product_id }
+
+      setStockEntries([NewStockProduct]);
     }
 
     setAmount("");
@@ -60,7 +68,7 @@ const StockEntries = () => {
   const removeEntries = (id: string) => {
     const newArray = listStockEntries.filter((item) => item.id !== id);
 
-    localStorage.setItem("db_stock_entries", JSON.stringify(newArray));
+    setlocalStorage("db_stock_entries", newArray);
 
     setStockEntries(newArray);
   };
@@ -68,8 +76,6 @@ const StockEntries = () => {
   const getProductById = (id: string) => {
     return listProducts.filter((item) => item.id === id)[0]?.name;
   };
-
-
 
   return (
     <Ch.Flex h="100vh" flexDirection="column">
@@ -118,7 +124,7 @@ const StockEntries = () => {
                 </Ch.Tr>
               </Ch.Thead>
               <Ch.Tbody>
-                {listStockEntries.map(({ product_id, amount, id }, i) => (
+                {listStockEntries.map(({ product_id, amount, id }: ProductProps, i) => (
                   <Ch.Tr key={i}>
                     <Ch.Td color="gray.500">{getProductById(product_id)}</Ch.Td>
                     <Ch.Td color="gray.500">{amount}</Ch.Td>

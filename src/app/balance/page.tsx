@@ -5,11 +5,17 @@ import { Header } from "@/components/Header";
 import { Sidebar } from "@/components/Sidebar";
 
 type ListProducts = {
-  id: string
-  name: string
-  amount: string
-  product_id: string
-  product_name: string
+  id?: string
+  name?: string
+  amount: string | number
+  product_id?: string
+  product_name?: string
+}
+
+export function getlocalStorage(key: string) {
+  const data = window.localStorage.getItem(key)
+
+  return JSON.parse(data!)
 }
 
 const Balance = () => {
@@ -18,32 +24,29 @@ const Balance = () => {
   const [cmbProducts, setCmbProducts] = useState<ListProducts[]>([]);
 
   const BuildBalanceArray = () => {
-    const db_stock_outputs = localStorage.getItem("db_stock_outputs")
-      ? JSON.parse(localStorage.getItem("db_stock_outputs")) : [];
+    const db_stock_outputs = getlocalStorage("db_stock_outputs");
 
-    const db_stock_entries = localStorage.getItem("db_stock_entries")
-      ? JSON.parse(localStorage.getItem("db_stock_entries")) : [];
+    const db_stock_entries = getlocalStorage("db_stock_entries");
 
-    const db_products = localStorage.getItem("db_products")
-      ? JSON.parse(localStorage.getItem("db_products")) : [];
+    const db_products = getlocalStorage("db_products");
 
-    const newArray = [];
+    const newArray: ListProducts[] = [];
 
-    db_products.map((prod : {id: string, name: string}) => {
+    db_products?.map((prod: { id: string, name: string }) => {
       const entries = db_stock_entries
         .filter(({ product_id }: ListProducts) => product_id === prod.id)
         .map(({ amount }: ListProducts) => Number(amount))
-        .reduce((acc, cur) => acc + cur, 0);
+        .reduce((acc: number, cur: number) => acc + cur, 0);
 
       const outputs = db_stock_outputs
         .filter(({ product_id }: ListProducts) => product_id === prod.id)
         .map(({ amount }: ListProducts) => Number(amount))
-        .reduce((acc, cur) => acc + cur, 0);
+        .reduce((acc: number, cur: number) => acc + cur, 0);
 
       const total = Number(entries) - Number(outputs);
 
       newArray.push({
-        product_id: prod.id, 
+        product_id: prod.id,
         product_name: prod.name,
         amount: total,
       });
@@ -64,7 +67,7 @@ const Balance = () => {
     }
 
     const newArray = cmbProducts.filter(
-      (item) => item.product_id === productFiltered
+      (item: ListProducts) => item.product_id === productFiltered
     )
 
     setListProducts(newArray);
@@ -86,13 +89,13 @@ const Balance = () => {
               <option value="">Selecione um item</option>
               {cmbProducts &&
                 cmbProducts.length > 0 &&
-                cmbProducts.map((item : ListProducts, i) => (
+                cmbProducts.map((item: ListProducts, i) => (
                   <option key={i} value={item.product_id}>
                     {item.product_name}
                   </option>
                 ))}
             </Ch.Select>
-            <Ch.Button w="40" onClick={handleFilterProducts}>
+            <Ch.Button w="40px" onClick={handleFilterProducts}>
               FILTRAR
             </Ch.Button>
           </Ch.SimpleGrid>
@@ -110,7 +113,7 @@ const Balance = () => {
                 </Ch.Tr>
               </Ch.Thead>
               <Ch.Tbody>
-                {listProducts.map((item, i) => (
+                {listProducts.map((item: ListProducts, i) => (
                   <Ch.Tr key={i}>
                     <Ch.Td color="gray.500">{item.product_name}</Ch.Td>
                     <Ch.Td color="gray.500">{item.amount}</Ch.Td>

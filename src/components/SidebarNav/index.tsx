@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 const navCadastro = [
   {
     href: '/',
-    title: 'Produto'
+    title: 'Produtos'
   }
 ]
 
@@ -20,7 +20,7 @@ const navEstoque = [
     title: 'Entrada'
   },
   {
-    href: '/stockoutputs',
+    href: '/stockoutputs', 
     title: 'Saída'
   }
 ]

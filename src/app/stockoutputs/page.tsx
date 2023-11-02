@@ -1,83 +1,81 @@
 'use client'
-import { useEffect, useState } from "react"
-
+import { Header } from '@/components/Header';
+import { Sidebar } from '@/components/Sidebar';
 import * as Ch from '@chakra-ui/react'
-import API from '@/app/api'
-
-import { Header } from "@/components/Header"
-import { Sidebar } from "@/components/Sidebar"
-import { z } from "zod"
+import { useEffect, useState } from "react";
 
 interface ProductProps {
   id: string,
   product_id: string,
   amount: string,
-  name: string
+  name?: string
 }
 
- const StockOutputs = () => {
-  const [amount, setAmount] = useState<string>("")
-  const [product_id, setProduct_id] = useState<string>("0")
-  const [listStockOutputs, setStockOutputs] = useState<ProductProps[]>([])
-  const [listProducts, setListProducts] = useState<ProductProps[]>([])
+export function getlocalStorage(key: string) {
+  const data = window.localStorage.getItem(key)
+
+  return JSON.parse(data!)
+}
+
+export function SetlocalStorage(key: string, value: unknown) {
+  const data = JSON.stringify(value)
+
+  return window.localStorage.setItem(key, data)
+}
+
+const StockOutputs = () => {
+  const [amount, setAmount] = useState("");
+  const [product_id, setProduct_id] = useState("0");
+  const [listStockOutputs, setStockOutputs] = useState<ProductProps[]>([]);
+  const [listProducts, setListProducts] = useState<ProductProps[]>([]);
 
   useEffect(() => {
-    const db_stock_outputs = localStorage.getItem("db_stock_outputs")
-      ? JSON.parse(localStorage.getItem("db_stock_outputs")) : [];
+    const db_stock_outputs = getlocalStorage("db_stock_outputs");
 
-    setStockOutputs(db_stock_outputs)
+    setStockOutputs(db_stock_outputs);
 
-    const db_products = localStorage.getItem("db_products")
-      ? JSON.parse(localStorage.getItem("db_products")) : [];
+    const db_products = getlocalStorage("db_products");
 
-    setListProducts(db_products)
-  }, [])
+    setListProducts(db_products);
+  }, []);
 
-   const handleNewOutput = async () => {
-     if (!amount || product_id === "0") {
-       return alert("Selecione o produto e a quantidade!");
-     }
+  const handleNewOutput = () => {
+    if (!amount || product_id === "0") {
+      return alert("Selecione o produto e a quantidade!");
+    }
 
-     const id = Math.random().toString(36).substring(2);
+    const id = Math.random().toString(36).substring(2);
 
-     try {
+    if (listStockOutputs && listStockOutputs.length) {
+      SetlocalStorage("db_stock_outputs", [...listStockOutputs, { id, amount, product_id }])
 
-      const createSchemaProduct = z.object({
-        id: string(),
-        quantidade: z.string()
+      const NewOutputProduct: ProductProps = { id, amount, product_id }
 
-      })
+      setStockOutputs([...listStockOutputs, NewOutputProduct]);
+    } else {
+      SetlocalStorage("db_stock_outputs", [{ id, amount, product_id }])
 
-      const stockProduct = createSchemaProduct.parse({
-        id: id,
-        quantidade: amount,
-      })
+      const NewOutputProduct: ProductProps = { id, amount, product_id }
 
-       const response = await API.post("/stock_output", stockProduct);
-       console.log("Saída de estoque cadastrada com sucesso!");
+      setStockOutputs([NewOutputProduct]);
+    }
 
+    setAmount("");
+    setProduct_id("0");
+  };
 
-       setStockOutputs([...listStockOutputs, response]);
-     } catch (error) {
-       console.log("Erro: ", error);
-       alert("Houve um erro ao cadastrar a saída de estoque. Por favor, tente novamente.");
-     }
+  const removeOutput = (id: String | Number) => {
+    const newArray = listStockOutputs.filter((item: ProductProps) => item.id !== id);
 
-     setAmount("");
-     setProduct_id("0");
-   };
+    SetlocalStorage("db_stock_outputs", newArray)
 
-  const removeOutput = (id: string) => {
-    const newArray = listStockOutputs.filter((item) => item.id !== id)
+    setStockOutputs(newArray);
+  };
 
-    localStorage.setItem("db_stock_outputs", JSON.stringify(newArray))
+  const getProductById = (id: String | Number) => {
+    return listProducts.filter((item: ProductProps) => item.id === id)[0]?.name;
+  };
 
-    setStockOutputs(newArray)
-  }
-
-  const getProductById = (id: string) => {
-    return listProducts.filter((item) => item.id === id)[0]?.name
-  }
 
   return (
     <Ch.Flex h="100vh" flexDirection="column">

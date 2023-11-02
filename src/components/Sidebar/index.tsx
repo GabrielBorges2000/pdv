@@ -3,9 +3,13 @@ import * as Ch from '@chakra-ui/react'
 import { SidebarNav } from '../SidebarNav'
 import { useSidebarContext } from '@/contexts/SidebarContext'
 
+interface ContextProps extends Ch.UseDisclosureProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-export function Sidebar<UseDisclosureProps>() {
-  const { isOpen, onClose }: Ch.UseDisclosureProps = useSidebarContext()
+export function Sidebar() {
+  const { isOpen, onClose }: ContextProps = useSidebarContext();
 
   const isDrawerSidebar = Ch.useBreakpointValue({
     base: true,
@@ -19,7 +23,6 @@ export function Sidebar<UseDisclosureProps>() {
           <Ch.DrawerContent p="2" onClick={() => onClose()}>
             <Ch.DrawerCloseButton />
             <Ch.DrawerHeader />
-
             <Ch.DrawerBody>
               <SidebarNav />
             </Ch.DrawerBody>
