@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 'use client'
 import { useEffect, useState } from 'react'
 import * as Ch from '@chakra-ui/react'
