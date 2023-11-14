@@ -1,4 +1,3 @@
-
 'use client'
 import { Header } from '@/components/Header'
 import { Sidebar } from '@/components/Sidebar'
@@ -24,7 +23,7 @@ export function setlocalStorage(key: string, value: unknown) {
   return window.localStorage.setItem(key, data)
 }
 
-const Produtos = () => {
+export default function Produtos() {
   const [name, setName] = useState('')
   const [listProducts, setListProducts] = useState<ProductProps[]>([])
 
@@ -139,4 +138,3 @@ const Produtos = () => {
     </Ch.Flex>
   )
 }
-export default Produtos

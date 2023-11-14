@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 'use client'
 import { useEffect, useState } from 'react'
 import * as Ch from '@chakra-ui/react'
@@ -14,12 +13,12 @@ type ListProducts = {
 }
 
 export function getlocalStorage(key: string) {
-  const data: string | null = window.localStorage.getItem(key)
+  const data = window.localStorage.getItem(key)
 
   return data ? JSON.parse(data!) : []
 }
 
-const Balance = () => {
+export default function Balance() {
   const [productFiltered, setProductFiltered] = useState<string>('')
   const [listProducts, setListProducts] = useState<ListProducts[]>([])
   const [cmbProducts, setCmbProducts] = useState<ListProducts[]>([])
@@ -85,14 +84,14 @@ const Balance = () => {
           <Ch.SimpleGrid minChildWidth={240} h="fit-content" spacing="6">
             <Ch.Select
               value={productFiltered}
-              onChange={(e) => setProductFiltered(e.target.value)}
+              onChange={(e: any) => setProductFiltered(e.target.value)}
             >
               <option value="">Selecione um item</option>
               {cmbProducts &&
                 cmbProducts.length > 0 &&
-                cmbProducts.map((item: ListProducts, i) => (
-                  <option key={i} value={item.product_id}>
-                    {item.product_name}
+                cmbProducts.map(({ product_id, product_name }: ListProducts, i: Number) => (
+                  <option key={i} value={product_id}>
+                    {product_name}
                   </option>
                 ))}
             </Ch.Select>
@@ -128,5 +127,3 @@ const Balance = () => {
     </Ch.Flex>
   )
 }
-
-export default Balance

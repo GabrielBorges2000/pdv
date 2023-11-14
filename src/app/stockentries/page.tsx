@@ -1,4 +1,3 @@
-
 'use client'
 import { useEffect, useState } from 'react'
 import * as Ch from '@chakra-ui/react'
@@ -25,7 +24,7 @@ export function setlocalStorage(key: string, value: unknown) {
   return window.localStorage.setItem(key, data)
 }
 
-const StockEntries = () => {
+export default function StockEntries() {
   const [amount, setAmount] = useState<string>('')
   const [product_id, setProduct_id] = useState<string>('0')
   const [listStockEntries, setStockEntries] = useState<ProductProps[]>([])
@@ -158,5 +157,3 @@ const StockEntries = () => {
     </Ch.Flex>
   )
 }
-
-export default StockEntries
