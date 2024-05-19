@@ -95,7 +95,7 @@ export default function Balance() {
                   </option>
                 ))}
             </Ch.Select>
-            <Ch.Button w="40px" onClick={handleFilterProducts}>
+            <Ch.Button w="40" onClick={handleFilterProducts}>
               FILTRAR
             </Ch.Button>
           </Ch.SimpleGrid>

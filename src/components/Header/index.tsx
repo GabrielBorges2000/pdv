@@ -41,8 +41,8 @@ export function Header() {
       <Ch.Text as="h1">Estoque</Ch.Text>
       <Ch.Flex ml="auto">
         <Ch.HStack>
-          <Ch.Text>Fazer Login</Ch.Text>
-          <Ch.Avatar size="md" name="" />
+          <Ch.Text>Gabriel Borges</Ch.Text>
+          <Ch.Avatar size="md" name="" src='https://avatars.githubusercontent.com/u/112534393?v=4'/>
         </Ch.HStack>
       </Ch.Flex>
     </Ch.Flex>
